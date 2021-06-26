@@ -4,7 +4,7 @@ import numpy as np
 import json
 import sys
 
-directory = "../data/"
+directory = "../data"
 user_data = directory + "/train"
 valid_data = directory + "/val"
 test_data = directory + "/label_book" # this can be the label book, or any other test set you create

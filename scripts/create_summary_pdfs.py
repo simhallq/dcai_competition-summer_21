@@ -1,7 +1,7 @@
 import os
-import sys
 
-print()
+
+
 data_dir='../data/'
 for dir in os.listdir(f'{data_dir}train/'):
     if not dir.startswith('.'):

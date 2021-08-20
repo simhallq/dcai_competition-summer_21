@@ -4,10 +4,16 @@ import numpy as np
 import json
 import sys
 
-directory = "../data"
-user_data = directory + "/train"
-valid_data = directory + "/val"
+
+train_set=sys.argv[1]
+print(f"Training on {train_set}")
+directory = "/Users/simon/dcai_competition-summer_21/data"
+user_data = directory + "/"+train_set
+valid_data = directory + "/val-clean"
 test_data = directory + "/label_book" # this can be the label book, or any other test set you create
+
+
+# this can be the label book, or any other test set you create
 
 ### DO NOT MODIFY BELOW THIS LINE, THIS IS THE FIXED MODEL ###
 batch_size = 8
@@ -27,7 +33,7 @@ if __name__ == "__main__":
     )
 
     valid = tf.keras.preprocessing.image_dataset_from_directory(
-        user_data ,
+        valid_data,
         labels="inferred",
         label_mode="categorical",
         class_names=["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x"],
@@ -38,7 +44,7 @@ if __name__ == "__main__":
     )
 
     total_length = ((train.cardinality() + valid.cardinality()) * batch_size).numpy()
-    if total_length > 10000:
+    if total_length > 10_000:
         print(f"Dataset size larger than 10,000. Got {total_length} examples")
         sys.exit()
 
@@ -79,21 +85,21 @@ if __name__ == "__main__":
     print(f"loss {loss_0}, acc {acc_0}")
 
     checkpoint = tf.keras.callbacks.ModelCheckpoint(
-        "best_model",
+        "best_model"+train_set,
         monitor="val_accuracy",
         mode="max",
         save_best_only=True,
         save_weights_only=True,
     )
 
-    history = model.fit(
-        train,
-        validation_data=valid,
-        epochs=100,
-        callbacks=[checkpoint],
-    )
+    # history = model.fit(
+    #     train,
+    #     validation_data=valid,
+    #     epochs=100,
+    #     callbacks=[checkpoint],
+    # )
 
-    model.load_weights("best_model")
+    model.load_weights("best_model"+train_set)
 
     loss, acc = model.evaluate(valid)
     print(f"final loss {loss}, final acc {acc}")

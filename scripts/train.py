@@ -92,12 +92,12 @@ if __name__ == "__main__":
         save_weights_only=True,
     )
 
-    # history = model.fit(
-    #     train,
-    #     validation_data=valid,
-    #     epochs=100,
-    #     callbacks=[checkpoint],
-    # )
+    history = model.fit(
+        train,
+        validation_data=valid,
+        epochs=100,
+        callbacks=[checkpoint],
+    )
 
     model.load_weights("best_model"+train_set)
 
